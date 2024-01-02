@@ -1,4 +1,12 @@
-import { Button, Chip, Rating } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  Rating,
+} from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -10,10 +18,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/system";
 import React, { useState } from "react";
 
-const SearchCard = ({}) => {
+const SearchCard = () => {
   const [openView, setOpenView] = useState(false);
   const handleClickOpenView = () => {
     setOpenView(true);
@@ -48,18 +55,17 @@ const SearchCard = ({}) => {
         title="Search Card"
       />
       <CardContent>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{ rightMargin: "2rem" }}
-          >
-            Shrek Game 2.0
-          </Typography>
-        </Box>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ rightMargin: "2rem" }}
+        >
+          Shrek Game 2.0
+        </Typography>
         <Rating name="customized-10" max={10} value="7" readOnly />
 
+        {/* View Reviews Logic */}
         <Button
           variant="outlined"
           size="small"
@@ -69,24 +75,38 @@ const SearchCard = ({}) => {
           View Reviews
         </Button>
         <Dialog open={openView} onClose={handleCloseView}>
-          <DialogTitle>Subscribe</DialogTitle>
+          <DialogTitle>Reviews for Shrek Game</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-              variant="standard"
-            />
+            <Box>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="username"
+                    secondary="I enjoyed the game but I really wish it had more content."
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="username"
+                    secondary="I enjoyed the game but I really wish it had more content."
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="username"
+                    secondary="I enjoyed the game but I really wish it had more content."
+                  />
+                </ListItem>
+              </List>
+            </Box>
           </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseView}>Cancel</Button>
+            <Button onClick={handleCloseView}>Submit</Button>
+          </DialogActions>
         </Dialog>
 
+        {/* Write Review Form */}
         <Button
           variant="outlined"
           size="small"

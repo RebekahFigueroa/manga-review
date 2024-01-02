@@ -11,7 +11,7 @@ const Search = () => {
         component="div"
         sx={{
           textAlign: "center",
-          marginTop: "1rem",
+          marginTop: "5rem",
           marginBottom: "0",
         }}
       >

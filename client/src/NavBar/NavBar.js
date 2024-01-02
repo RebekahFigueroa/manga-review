@@ -11,8 +11,8 @@ const NavBar = () => {
         </Typography>
         <Stack direction="row" spacing={2}>
           <NavItem to="/search" label="Search" />
-          <NavItem to="/yourLibrary" label="Your Library" />
-          <NavItem to="/libraryStats" label="Library Stats" />
+          <NavItem to="/library" label="Library" />
+          <NavItem to="/stats" label="Stats" />
         </Stack>
       </Toolbar>
     </AppBar>

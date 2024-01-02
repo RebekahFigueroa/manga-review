@@ -19,13 +19,13 @@ const App = () => {
         <Box sx={{ height: "calc(100vh - 3rem)" }}>
           <Switch>
             {/* <Route path="/search">
-              <Experience />
+              <Search />
             </Route>
-            <Route path="/yourLibrary">
-              <Portfolio />
+            <Route path="/library">
+              <Library />
             </Route>
-            <Route path="/libraryStats">
-              <Blog />
+            <Route path="/stats">
+              <Stats />
             </Route>
 
             <Redirect from="/" to="/search" /> */}

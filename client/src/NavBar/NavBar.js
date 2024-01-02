@@ -7,7 +7,7 @@ const NavBar = () => {
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Manga Library
+          Game Library
         </Typography>
         <Stack direction="row" spacing={2}>
           <NavItem to="/search" label="Search" />

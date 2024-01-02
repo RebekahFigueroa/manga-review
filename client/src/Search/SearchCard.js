@@ -1,4 +1,4 @@
-import { Button, Chip } from "@mui/material";
+import { Button, Chip, Rating } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -30,6 +30,8 @@ const SearchCard = ({}) => {
     setOpenWrite(false);
   };
 
+  const [starRatingValue, setStarRatingValue] = useState(5);
+
   return (
     <Card
       sx={{
@@ -56,8 +58,14 @@ const SearchCard = ({}) => {
             Shrek Game 2.0
           </Typography>
         </Box>
+        <Rating name="customized-10" max={10} value="7" readOnly />
 
-        <Button variant="outlined" size="small" onClick={handleClickOpenView}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleClickOpenView}
+          sx={{ marginTop: "2rem" }}
+        >
           View Reviews
         </Button>
         <Dialog open={openView} onClose={handleCloseView}>
@@ -79,7 +87,12 @@ const SearchCard = ({}) => {
           </DialogContent>
         </Dialog>
 
-        <Button variant="outlined" size="small" onClick={handleClickOpenWrite}>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleClickOpenWrite}
+          sx={{ marginLeft: "1rem", marginTop: "2rem" }}
+        >
           Write Review
         </Button>
         <Dialog open={openWrite} onClose={handleCloseWrite}>
@@ -90,7 +103,7 @@ const SearchCard = ({}) => {
               game.
             </DialogContentText>
             <TextField
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", marginBottom: "2rem", marginTop: "1rem" }}
               id="outlined-multiline-flexible"
               label="Review"
               multiline
@@ -99,23 +112,27 @@ const SearchCard = ({}) => {
               // onChange={(e) => setSuggestionDescription(e.target.value)}
               placeholder="Review"
             />
+            <Typography component="legend">Star Rating</Typography>
+            <Rating
+              name="customized-10"
+              defaultValue={2}
+              max={10}
+              value={starRatingValue}
+              onChange={(event, newValue) => {
+                setStarRatingValue(newValue);
+              }}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseWrite}>Cancel</Button>
             <Button onClick={handleCloseWrite}>Submit</Button>
           </DialogActions>
         </Dialog>
-
-        <Typography variant="body2" color="text.secondary">
-          Single Player
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          6.5/10
-        </Typography>
       </CardContent>
       <CardActions sx={{ marginTop: "auto" }}>
         <Chip color="primary" label="Action" />
         <Chip color="primary" label="Adventure" />
+        <Chip color="primary" label="Single-Player" />
       </CardActions>
     </Card>
   );

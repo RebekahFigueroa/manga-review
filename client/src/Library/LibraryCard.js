@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Chip,
-  List,
-  ListItem,
-  ListItemText,
-  Rating,
-} from "@mui/material";
+import { Button, Chip, Rating } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -20,15 +12,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 
-const SearchCard = () => {
-  const [openView, setOpenView] = useState(false);
-  const handleClickOpenView = () => {
-    setOpenView(true);
-  };
-  const handleCloseView = () => {
-    setOpenView(false);
-  };
-
+const LibraryCard = () => {
   const [openWrite, setOpenWrite] = useState(false);
   const handleClickOpenWrite = () => {
     setOpenWrite(true);
@@ -43,7 +27,7 @@ const SearchCard = () => {
     <Card
       sx={{
         maxWidth: 500,
-        height: "25rem",
+        height: "30rem",
         width: "20rem",
         display: "flex",
         flexDirection: "column",
@@ -64,62 +48,30 @@ const SearchCard = () => {
           Shrek Game 2.0
         </Typography>
         <Rating name="customized-10" max={10} value="7" readOnly />
-
-        {/* View Reviews Logic */}
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={handleClickOpenView}
-          sx={{ marginTop: "2rem" }}
+        <Typography
+          gutterBottom
+          variant="h10"
+          component="div"
+          sx={{ rightMargin: "2rem" }}
         >
-          View Reviews
-        </Button>
-        <Dialog open={openView} onClose={handleCloseView}>
-          <DialogTitle>Reviews for Shrek Game</DialogTitle>
-          <DialogContent>
-            <Box>
-              <List>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
-              </List>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseView}>Cancel</Button>
-            <Button onClick={handleCloseView}>Submit</Button>
-          </DialogActions>
-        </Dialog>
+          The game was enjoyable but I felt it was missing some of the magic of
+          the movies.
+        </Typography>
 
-        {/* Write Review Form */}
+        {/* Edit Review Form */}
         <Button
           variant="outlined"
           size="small"
           onClick={handleClickOpenWrite}
           sx={{ marginLeft: "1rem", marginTop: "2rem" }}
         >
-          Write Review
+          Edit Review
         </Button>
         <Dialog open={openWrite} onClose={handleCloseWrite}>
-          <DialogTitle>Write A Review</DialogTitle>
+          <DialogTitle>Edit Review</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please provide a detailed description of your thoughts on this
+              Please provide an updated description of your thoughts on this
               game.
             </DialogContentText>
             <TextField
@@ -128,9 +80,9 @@ const SearchCard = () => {
               label="Review"
               multiline
               rows={10}
-              value="I enjoyed this game but I wish it had more than 5 hours of content."
+              value="I enjoyed this game but it fell flat as a sequel."
               // onChange={(e) => setSuggestionDescription(e.target.value)}
-              placeholder="I enjoyed this game but I wish it had more than 5 hours of content."
+              placeholder="Review"
             />
             <Typography component="legend">Star Rating</Typography>
             <Rating
@@ -148,6 +100,14 @@ const SearchCard = () => {
             <Button onClick={handleCloseWrite}>Submit</Button>
           </DialogActions>
         </Dialog>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleClickOpenWrite}
+          sx={{ marginLeft: "1rem", marginTop: "2rem" }}
+        >
+          Delete Review
+        </Button>
       </CardContent>
       <CardActions sx={{ marginTop: "auto" }}>
         <Chip color="primary" label="Action" />
@@ -158,4 +118,4 @@ const SearchCard = () => {
   );
 };
 
-export default SearchCard;
+export default LibraryCard;

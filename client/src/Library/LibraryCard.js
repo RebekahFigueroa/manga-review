@@ -12,8 +12,13 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 
-const LibraryCard = () => {
+const LibraryCard = ({ review, setReviews }) => {
+  const [formData, setFormData] = useState({
+    review_text: review.review_text,
+    rating: review.rating,
+  });
   const [openWrite, setOpenWrite] = useState(false);
+
   const handleClickOpenWrite = () => {
     setOpenWrite(true);
   };
@@ -21,7 +26,58 @@ const LibraryCard = () => {
     setOpenWrite(false);
   };
 
-  const [starRatingValue, setStarRatingValue] = useState(5);
+  const handleReviewTextChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      review_text: value,
+    });
+  };
+
+  const handleRatingChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      rating: value,
+    });
+  };
+
+  // const handleDelete = () = { }
+
+  const handleSubmit = async () => {
+    const response = await fetch(`/reviews/${review.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...formData,
+        userId: 1,
+        gameId: review.game_id,
+      }),
+    });
+    const updatedReview = await response.json();
+
+    setReviews((reviews) =>
+      reviews.reduce((array, review) => {
+        if (review.id !== updatedReview.id) {
+          array.push(review);
+        } else {
+          array.push({
+            ...review,
+            review_text: updatedReview.review_text,
+            rating: updatedReview.rating,
+          });
+        }
+
+        return array;
+      }, [])
+    );
+
+    handleCloseWrite();
+  };
 
   return (
     <Card
@@ -35,7 +91,7 @@ const LibraryCard = () => {
     >
       <CardMedia
         sx={{ height: 200 }}
-        image="https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/812MRHRQXwS._AC_UF1000,1000_QL80_.jpg"
+        image={review.image_url}
         title="Search Card"
       />
       <CardContent>
@@ -45,17 +101,16 @@ const LibraryCard = () => {
           component="div"
           sx={{ rightMargin: "2rem" }}
         >
-          Shrek Game 2.0
+          {review.name}
         </Typography>
-        <Rating name="customized-10" max={10} value="7" readOnly />
+        <Rating name="customized-10" max={10} value={review.rating} readOnly />
         <Typography
           gutterBottom
           variant="h10"
           component="div"
           sx={{ rightMargin: "2rem" }}
         >
-          The game was enjoyable but I felt it was missing some of the magic of
-          the movies.
+          {review.review_text}
         </Typography>
 
         {/* Edit Review Form */}
@@ -80,8 +135,8 @@ const LibraryCard = () => {
               label="Review"
               multiline
               rows={10}
-              value="I enjoyed this game but it fell flat as a sequel."
-              // onChange={(e) => setSuggestionDescription(e.target.value)}
+              value={formData.review_text}
+              onChange={handleReviewTextChange}
               placeholder="Review"
             />
             <Typography component="legend">Star Rating</Typography>
@@ -89,15 +144,13 @@ const LibraryCard = () => {
               name="customized-10"
               defaultValue={2}
               max={10}
-              value={starRatingValue}
-              onChange={(event, newValue) => {
-                setStarRatingValue(newValue);
-              }}
+              value={formData.rating}
+              onChange={handleRatingChange}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseWrite}>Cancel</Button>
-            <Button onClick={handleCloseWrite}>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
           </DialogActions>
         </Dialog>
         <Button
@@ -110,9 +163,9 @@ const LibraryCard = () => {
         </Button>
       </CardContent>
       <CardActions sx={{ marginTop: "auto" }}>
-        <Chip color="primary" label="Action" />
-        <Chip color="primary" label="Adventure" />
-        <Chip color="primary" label="Single-Player" />
+        {review.genres.map((chip) => (
+          <Chip color="primary" label={chip} />
+        ))}
       </CardActions>
     </Card>
   );

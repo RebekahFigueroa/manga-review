@@ -18,9 +18,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const SearchCard = () => {
+const SearchCard = ({ game, userId = 1 }) => {
   const [openView, setOpenView] = useState(false);
   const handleClickOpenView = () => {
     setOpenView(true);
@@ -37,7 +37,61 @@ const SearchCard = () => {
     setOpenWrite(false);
   };
 
-  const [starRatingValue, setStarRatingValue] = useState(5);
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const response = await fetch(`/reviews/${game.id}`);
+      const data = await response.json();
+      setReviews(data);
+    };
+
+    fetchReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [formData, setFormData] = useState({
+    reviewText: "",
+    rating: 0,
+  });
+
+  const handleReviewTextChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      reviewText: value,
+    });
+  };
+
+  const handleRatingChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      rating: value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    const response = await fetch("/reviews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...formData,
+        userId: userId,
+        gameId: game.id,
+      }),
+    });
+    const review = await response.json();
+    setReviews((reviews) => [review, ...reviews]);
+    setFormData({
+      reviewText: "",
+      rating: 0,
+    });
+    handleCloseWrite();
+  };
 
   return (
     <Card
@@ -51,7 +105,7 @@ const SearchCard = () => {
     >
       <CardMedia
         sx={{ height: 200 }}
-        image="https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/812MRHRQXwS._AC_UF1000,1000_QL80_.jpg"
+        image={game.image_url}
         title="Search Card"
       />
       <CardContent>
@@ -61,9 +115,14 @@ const SearchCard = () => {
           component="div"
           sx={{ rightMargin: "2rem" }}
         >
-          Shrek Game 2.0
+          {game.name}
         </Typography>
-        <Rating name="customized-10" max={10} value="7" readOnly />
+        <Rating
+          name="customized-10"
+          max={10}
+          value={Math.round(game.rating)}
+          readOnly
+        />
 
         {/* View Reviews Logic */}
         <Button
@@ -75,46 +134,44 @@ const SearchCard = () => {
           View Reviews
         </Button>
         <Dialog open={openView} onClose={handleCloseView}>
-          <DialogTitle>Reviews for Shrek Game</DialogTitle>
+          <DialogTitle>Reviews for {game.name}</DialogTitle>
           <DialogContent>
             <Box>
               <List>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="username"
-                    secondary="I enjoyed the game but I really wish it had more content."
-                  />
-                </ListItem>
+                {reviews.map((review) => (
+                  <ListItem>
+                    <ListItemText
+                      primary={review.username}
+                      secondary={review.review_text}
+                    />
+
+                    <Rating
+                      name="customized-10"
+                      max={10}
+                      value={review.rating}
+                      readOnly
+                    />
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseView}>Cancel</Button>
-            <Button onClick={handleCloseView}>Submit</Button>
           </DialogActions>
         </Dialog>
 
         {/* Write Review Form */}
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={handleClickOpenWrite}
-          sx={{ marginLeft: "1rem", marginTop: "2rem" }}
-        >
-          Write Review
-        </Button>
+        {!reviews.some((review) => review.user_id === 1) && (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleClickOpenWrite}
+            sx={{ marginLeft: "1rem", marginTop: "2rem" }}
+          >
+            Write Review
+          </Button>
+        )}
         <Dialog open={openWrite} onClose={handleCloseWrite}>
           <DialogTitle>Write A Review</DialogTitle>
           <DialogContent>
@@ -128,8 +185,8 @@ const SearchCard = () => {
               label="Review"
               multiline
               rows={10}
-              value="I enjoyed this game but I wish it had more than 5 hours of content."
-              // onChange={(e) => setSuggestionDescription(e.target.value)}
+              value={formData.reviewText}
+              onChange={handleReviewTextChange}
               placeholder="I enjoyed this game but I wish it had more than 5 hours of content."
             />
             <Typography component="legend">Star Rating</Typography>
@@ -137,22 +194,20 @@ const SearchCard = () => {
               name="customized-10"
               defaultValue={2}
               max={10}
-              value={starRatingValue}
-              onChange={(event, newValue) => {
-                setStarRatingValue(newValue);
-              }}
+              value={formData.rating}
+              onChange={handleRatingChange}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseWrite}>Cancel</Button>
-            <Button onClick={handleCloseWrite}>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
           </DialogActions>
         </Dialog>
       </CardContent>
       <CardActions sx={{ marginTop: "auto" }}>
-        <Chip color="primary" label="Action" />
-        <Chip color="primary" label="Adventure" />
-        <Chip color="primary" label="Single-Player" />
+        {game.genre.map((chip) => (
+          <Chip color="primary" label={chip} />
+        ))}
       </CardActions>
     </Card>
   );

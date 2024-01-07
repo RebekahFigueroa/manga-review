@@ -1,8 +1,20 @@
 import { Stack, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LibraryCard from "./LibraryCard";
 
 const Library = () => {
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    const fetchGames = async () => {
+      const response = await fetch("/reviews?userId=1");
+      const data = await response.json();
+      setReviews(data);
+    };
+
+    fetchGames();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Stack alignItems="center" spacing={2}>
       <Typography
@@ -35,14 +47,13 @@ const Library = () => {
           mb: 3,
         }}
       >
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
-        <LibraryCard />
+        {reviews.map((review) => (
+          <LibraryCard
+            key={review.id}
+            review={review}
+            setReviews={setReviews}
+          />
+        ))}
       </Stack>
     </Stack>
   );

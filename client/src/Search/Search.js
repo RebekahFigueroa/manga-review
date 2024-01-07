@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import SearchCard from "./SearchCard";
 
 const ITEM_HEIGHT = 48;
@@ -32,8 +32,8 @@ const MenuProps = {
 };
 
 const names = [
-  "Single-Player",
-  "Multi-Player",
+  "Singleplayer",
+  "Multiplayer",
   "Action",
   "Adventure",
   "Horror",
@@ -45,7 +45,7 @@ const names = [
   "Sandbox",
   "Sports",
   "Strategy",
-  "Sumulation",
+  "Simulation",
 ];
 
 function getStyles(name, personName, theme) {
@@ -58,7 +58,7 @@ function getStyles(name, personName, theme) {
 }
 
 const Search = () => {
-  const [openCreateGame, setOpenCreateGame] = React.useState(false);
+  const [openCreateGame, setOpenCreateGame] = useState(false);
   const handleClickOpenCreateGame = () => {
     setOpenCreateGame(true);
   };
@@ -67,17 +67,73 @@ const Search = () => {
   };
 
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [formData, setFormData] = useState({
+    title: "",
+    imageUrl: "",
+    genres: [],
+  });
 
-  const handleChange = (event) => {
+  const handleTitleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setFormData({
+      ...formData,
+      title: value,
+    });
   };
+
+  const handleImageUrlChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      imageUrl: value,
+    });
+  };
+
+  const handleGenreChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setFormData({
+      ...formData,
+      // On autofill we get a stringified value.
+      genres: typeof value === "string" ? value.split(",") : value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    const response = await fetch("/games", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const game = await response.json();
+
+    setGames((games) => [...games, game]);
+    setFormData({
+      title: "",
+      imageUrl: "",
+      genres: [],
+    });
+    handleCloseCreateGame();
+  };
+
+  const [games, setGames] = useState([]);
+  useEffect(() => {
+    const fetchGames = async () => {
+      const response = await fetch("/games");
+      const data = await response.json();
+      setGames(data);
+    };
+
+    fetchGames();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack alignItems="center" spacing={2}>
@@ -100,6 +156,7 @@ const Search = () => {
         sx={{ width: "50%" }}
       />
 
+      {/* Add a Game Button/ Dialog */}
       <Button
         variant="outlined"
         size="large"
@@ -118,16 +175,16 @@ const Search = () => {
             sx={{ width: "100%", marginBottom: "2rem", marginTop: "1rem" }}
             id="outlined-multiline-flexible"
             label="Game Title"
-            value=""
-            // onChange={(e) => setSuggestionDescription(e.target.value)}
+            value={formData.title}
+            onChange={handleTitleChange}
             placeholder="Dota 2"
           />
           <TextField
             sx={{ width: "100%", marginBottom: "2rem", marginTop: "1rem" }}
             id="outlined-multiline-flexible"
             label="Add Image URL"
-            value=""
-            // onChange={(e) => setSuggestionDescription(e.target.value)}
+            value={formData.imageUrl}
+            onChange={handleImageUrlChange}
             placeholder="google.com"
           />
 
@@ -140,8 +197,8 @@ const Search = () => {
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
-              value={personName}
-              onChange={handleChange}
+              value={formData.genres}
+              onChange={handleGenreChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => (
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -156,7 +213,7 @@ const Search = () => {
                 <MenuItem
                   key={name}
                   value={name}
-                  style={getStyles(name, personName, theme)}
+                  style={getStyles(name, formData.genres, theme)}
                 >
                   {name}
                 </MenuItem>
@@ -166,7 +223,7 @@ const Search = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateGame}>Cancel</Button>
-          <Button onClick={handleCloseCreateGame}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
 
@@ -181,13 +238,9 @@ const Search = () => {
           mb: 3,
         }}
       >
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
-        <SearchCard />
+        {games.map((game) => (
+          <SearchCard key={game.id} game={game} />
+        ))}
       </Stack>
     </Stack>
   );

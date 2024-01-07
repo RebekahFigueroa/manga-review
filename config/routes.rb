@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :games, only: [:index, :show, :create] 
   resources :reviews, only: [:index, :create]
 
+
   get "/me", to: "users#show"
   post "/signup", to: "users#create"
   post "/login", to: "sessions#create"
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
   get "/reviews/:game_id", to: "reviews#byGame"
   patch "/reviews/:id", to: "reviews#editReview"
   delete "/reviews/:id", to: "reviews#deleteReview"
+
+  get "/stats", to: "stats#stats"
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

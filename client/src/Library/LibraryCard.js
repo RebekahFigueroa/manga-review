@@ -46,8 +46,6 @@ const LibraryCard = ({ review, setReviews }) => {
     });
   };
 
-  // const handleDelete = () = { }
-
   const handleSubmit = async () => {
     const response = await fetch(`/reviews/${review.id}`, {
       method: "PATCH",
@@ -77,6 +75,14 @@ const LibraryCard = ({ review, setReviews }) => {
     );
 
     handleCloseWrite();
+  };
+
+  const handleDelete = () => {
+    fetch(`/reviews/${review.id}`, {
+      method: "DELETE",
+    }).then(() => {
+      setReviews((reviews) => reviews.filter((r) => r.id !== review.id));
+    });
   };
 
   return (
@@ -156,7 +162,7 @@ const LibraryCard = ({ review, setReviews }) => {
         <Button
           variant="outlined"
           size="small"
-          onClick={handleClickOpenWrite}
+          onClick={handleDelete}
           sx={{ marginLeft: "1rem", marginTop: "2rem" }}
         >
           Delete Review

@@ -19,7 +19,7 @@ class ReviewsController < ApplicationController
     review = Review.create!(user_id: params[:userId], game_id: params[:gameId], review_text: params[:reviewText], rating: params[:rating])
     reviewWithUsername = Review
       .joins(:user)
-      .select(:rating, :review_text, :"users.username", :"users.id")
+      .select(:rating, :review_text, :"users.username", "users.id AS user_id")
       .find(review.id)
     render json: reviewWithUsername, status: :created 
   end 

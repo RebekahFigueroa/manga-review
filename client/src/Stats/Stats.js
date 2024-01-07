@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,15 +33,28 @@ function createData(achievement, score) {
   return { achievement, score };
 }
 
-const stats = [
-  createData("How many games have you reviewed?", 13),
-  createData("Do you prefer multiplayer or singleplayer?", "multiplayer"),
-  createData("What is your favorite genre?", "Strategy"),
-  createData("What is your average game rating?", "7"),
-  createData("What is the average length of your reviews?", "250 characters"),
-];
-
 const Stats = () => {
+  const [stats, setStats] = useState({});
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const response = await fetch("/stats?user_id=1");
+      const data = await response.json();
+      setStats(data);
+    };
+
+    fetchStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const statsTest = [
+    createData("How many games have you reviewed?", stats.numReviewed),
+    createData("Do you prefer multiplayer or singleplayer?", "multiplayer"),
+    createData("What is your favorite genre?", "Strategy"),
+    createData("What is your average game rating?", "7"),
+    createData("What is the average length of your reviews?", "250 characters"),
+  ];
+
   return (
     <Box
       sx={{
@@ -60,7 +73,7 @@ const Stats = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {stats.map((stat) => (
+            {statsTest.map((stat) => (
               <StyledTableRow key={stat.achievement}>
                 <StyledTableCell component="th" scope="row">
                   {stat.achievement}

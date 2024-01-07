@@ -19,8 +19,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
-const SearchCard = ({ game, userId = 1 }) => {
+const SearchCard = ({ game }) => {
+  const { isAuthed: userId } = useAuthContext();
   const [openView, setOpenView] = useState(false);
   const handleClickOpenView = () => {
     setOpenView(true);
@@ -162,7 +164,7 @@ const SearchCard = ({ game, userId = 1 }) => {
         </Dialog>
 
         {/* Write Review Form */}
-        {!reviews.some((review) => review.user_id === 1) && (
+        {!reviews.some((review) => review.user_id === userId) && (
           <Button
             variant="outlined"
             size="small"

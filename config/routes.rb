@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   get "/me", to: "users#show"
   post "/signup", to: "users#create"
-  post "/login", to: "sessions#create"
-  delete "/logout", to: "sessions#destroy" 
+  post "/login", to: "session#create"
+  delete "/logout", to: "session#destroy" 
 
   get "/reviews/:game_id", to: "reviews#byGame"
   patch "/reviews/:id", to: "reviews#editReview"

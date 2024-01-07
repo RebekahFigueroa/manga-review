@@ -1,19 +1,20 @@
 import { Stack, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 import LibraryCard from "./LibraryCard";
 
 const Library = () => {
+  const { isAuthed: userId } = useAuthContext();
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const fetchGames = async () => {
-      const response = await fetch("/reviews?userId=1");
+      const response = await fetch(`/reviews/?userId=${userId}`);
       const data = await response.json();
       setReviews(data);
     };
 
     fetchGames();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId]);
 
   return (
     <Stack alignItems="center" spacing={2}>

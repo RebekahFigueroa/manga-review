@@ -11,8 +11,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const LibraryCard = ({ review, setReviews }) => {
+  const { isAuthed: userId } = useAuthContext();
   const [formData, setFormData] = useState({
     review_text: review.review_text,
     rating: review.rating,
@@ -52,7 +54,7 @@ const LibraryCard = ({ review, setReviews }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formData,
-        userId: 1,
+        userId,
         gameId: review.game_id,
       }),
     });

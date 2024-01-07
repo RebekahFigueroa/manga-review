@@ -1,9 +1,10 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const Login = () => {
-  const { create_user } = useAuthContext();
+const LoginField = () => {
+  const { isAuthed, login, logout } = useAuthContext();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -29,37 +30,36 @@ const Login = () => {
     });
   };
 
-  return (
-    <Stack component="form">
-      <Typography>Sign up</Typography>
-
+  return isAuthed ? (
+    <Button variant="contained" onClick={logout}>
+      Logout
+    </Button>
+  ) : (
+    <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
       <TextField
         label="Username"
         variant="filled"
+        size="small"
         value={formData.username}
         onChange={handleUsernameChange}
-      ></TextField>
+      />
+
       <TextField
         label="Password"
-        type="password"
         variant="filled"
+        size="small"
+        type="password"
         value={formData.password}
         onChange={handlePasswordChange}
-      ></TextField>
+      />
       <Button
         variant="contained"
-        onClick={() => {
-          create_user(formData.username, formData.password);
-          setFormData({
-            username: "",
-            password: "",
-          });
-        }}
+        onClick={() => login(formData.username, formData.password)}
       >
-        Create Account
+        Login
       </Button>
-    </Stack>
+    </Box>
   );
 };
 
-export default Login;
+export default LoginField;

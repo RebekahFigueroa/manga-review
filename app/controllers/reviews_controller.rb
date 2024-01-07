@@ -27,6 +27,10 @@ class ReviewsController < ApplicationController
   def editReview
     review = Review.find_by(id: params[:id])
     if review
+      if current_user != review.user_id 
+        render json: { error: "Unauthorized" }, status: 401
+      end
+
       if review.update(review_params)
         render json: review
       else

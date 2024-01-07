@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,18 +35,18 @@ function createData(achievement, score) {
 }
 
 const Stats = () => {
+  const { isAuthed: userId } = useAuthContext();
   const [stats, setStats] = useState({});
 
   useEffect(() => {
     const fetchStats = async () => {
-      const response = await fetch("/stats?user_id=1");
+      const response = await fetch(`/stats?user_id=${userId}`);
       const data = await response.json();
       setStats(data);
     };
 
     fetchStats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId]);
 
   const statsTest = [
     createData("How many games have you reviewed?", stats.numReviewed),
@@ -73,7 +74,7 @@ const Stats = () => {
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Achievments</StyledTableCell>
+              <StyledTableCell>Achievements</StyledTableCell>
               <StyledTableCell align="right">Score</StyledTableCell>
             </TableRow>
           </TableHead>

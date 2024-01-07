@@ -49,10 +49,15 @@ const Stats = () => {
 
   const statsTest = [
     createData("How many games have you reviewed?", stats.numReviewed),
-    createData("Do you prefer multiplayer or singleplayer?", "multiplayer"),
-    createData("What is your favorite genre?", "Strategy"),
-    createData("What is your average game rating?", "7"),
-    createData("What is the average length of your reviews?", "250 characters"),
+    createData(
+      "Do you prefer multiplayer or singleplayer?",
+      stats.playerCountPreference
+    ),
+    createData("What is your average game rating?", stats.averageRating),
+    createData(
+      "What is the average length of your reviews?",
+      stats.averageLength
+    ),
   ];
 
   return (

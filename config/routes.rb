@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :games, only: [:index, :show, :create] 
   resources :reviews, only: [:index, :create]
 
+  get "/auth", to: "auth#auth"
+
 
   get "/me", to: "users#show"
   post "/signup", to: "users#create"

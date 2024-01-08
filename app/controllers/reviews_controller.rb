@@ -27,10 +27,6 @@ class ReviewsController < ApplicationController
   def editReview
     review = Review.find_by(id: params[:id])
     if review
-      if current_user != review.user_id 
-        render json: { error: "Unauthorized" }, status: 401
-      end
-
       if review.update(review_params)
         render json: review
       else
@@ -51,6 +47,11 @@ class ReviewsController < ApplicationController
   def review_params 
       params.permit(:review_text, :rating, :user_id, :game_id)
   end
+
+  def authorize 
+    render json: { error: ["User must be logged in"] }, status: 401 unless session[:user_id]
+end
+
 
 end
 

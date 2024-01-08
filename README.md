@@ -42,38 +42,29 @@ Currently under development and deployed.
 
 # Features
 
-1. Home page
+1. Login page
 
-   - Used to select which household you belong to
+   - Used to either create an account or log into your account.
 
-2. View Budget
+2. Find a game
 
-   - Can see what the total budget of the household is
-   - Can see what each household member owes
+   - Used to see all available games on the app. You can either view the reviews users have created for this game or make your own.
+   - If the game you are looking for is not present, you have the option to add the game.
 
-3. Modify Budget
+3. Stats
 
-- Can create, edit, or delete a budget
+- Used to view fun stats about your gaming library such as number of games reviewed or whether you prefer a single player or multiplayer experience.
 
-4. Modify Household
+4. NavBar
 
-- Can create, edit, or delete a household member
-
-5. Modify Budget Item
-
-- Can create, edit, or delete a budget item
-
-6. NavBar
-
-- Used to navigate to the different components of the app as well as the main page to select a household
+- Used to navigate to the various pages within the app as well as logout when you are ready to end your sesssion.
 
 # Future Roadmap
 
 (in no particular order)
 
-- Add charts to see how much of your budget you have left
-- User login/ profile creation
+- Add search feature for games.
 
 # Supplemental links
 
-A Beginner’s Guide to Seeding Data (https://medium.com/@figueroarebekah/a-beginners-guide-to-seeding-data-f348fd9e6bb6)
+TBD

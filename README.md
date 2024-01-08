@@ -46,14 +46,20 @@ Currently under development and deployed.
 
    - Used to either create an account or log into your account.
 
+   ![Project Example Login](/client/public/phase4Login.png)
+
 2. Find a game
 
    - Used to see all available games on the app. You can either view the reviews users have created for this game or make your own.
    - If the game you are looking for is not present, you have the option to add the game.
 
+   ![Project Example Search](/client/public/phase4Search.png)
+
 3. Stats
 
 - Used to view fun stats about your gaming library such as number of games reviewed or whether you prefer a single player or multiplayer experience.
+
+  ![Project Example Stats](/client/public/phase4Stats.png)
 
 4. NavBar
 

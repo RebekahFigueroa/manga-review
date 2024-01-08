@@ -1,4 +1,4 @@
-import { Stack, TextField, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import LibraryCard from "./LibraryCard";
@@ -26,16 +26,12 @@ const Library = () => {
           textAlign: "center",
           marginTop: "5rem",
           marginBottom: "0",
+          paddingTop: "2rem",
+          paddingBottom: "1rem",
         }}
       >
         My Game Library
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label="Search"
-        variant="outlined"
-        sx={{ width: "25%" }}
-      />
 
       <Stack
         direction="row"

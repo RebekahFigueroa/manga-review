@@ -145,16 +145,12 @@ const Search = () => {
           textAlign: "center",
           marginTop: "5rem",
           marginBottom: "0",
+          paddingTop: "2rem",
+          paddingBottom: "1rem",
         }}
       >
         Find A Game
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label="Search"
-        variant="outlined"
-        sx={{ width: "50%" }}
-      />
 
       {/* Add a Game Button/ Dialog */}
       <Button

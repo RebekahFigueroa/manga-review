@@ -10,7 +10,7 @@ const NavBar = () => {
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Game Library
+          myGameLibrary
         </Typography>
         {isAuthed && (
           <Stack direction="row" spacing={2} mr={2}>

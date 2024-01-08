@@ -55,13 +55,19 @@ Currently under development and deployed.
 
    ![Project Example Search](/client/public/phase4Search.png)
 
-3. Stats
+3. Library
+
+- Used to view all of the games you have reviewed. Here you can edit or delete a review.
+
+![Project Example Library](/client/public/phase4Library.png)
+
+4. Stats
 
 - Used to view fun stats about your gaming library such as number of games reviewed or whether you prefer a single player or multiplayer experience.
 
   ![Project Example Stats](/client/public/phase4Stats.png)
 
-4. NavBar
+5. NavBar
 
 - Used to navigate to the various pages within the app as well as logout when you are ready to end your sesssion.
 

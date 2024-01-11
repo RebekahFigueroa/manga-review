@@ -79,4 +79,4 @@ Currently under development and deployed.
 
 # Supplemental links
 
-TBD
+Project article: Using Ruby on Rails, React, and Material UI to build a Multi-select component (https://medium.com/@figueroarebekah/using-ruby-on-rails-react-and-material-ui-to-build-a-multi-select-component-639b99e2104b)

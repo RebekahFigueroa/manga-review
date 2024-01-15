@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SearchCard from "./SearchCard";
 
 const ITEM_HEIGHT = 48;
@@ -124,13 +124,14 @@ const Search = () => {
   };
 
   const [games, setGames] = useState([]);
-  useEffect(() => {
-    const fetchGames = async () => {
-      const response = await fetch("/games");
-      const data = await response.json();
-      setGames(data);
-    };
 
+  const fetchGames = useCallback(async () => {
+    const response = await fetch("/games");
+    const data = await response.json();
+    setGames(data);
+  }, []);
+
+  useEffect(() => {
     fetchGames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -235,7 +236,7 @@ const Search = () => {
         }}
       >
         {games.map((game) => (
-          <SearchCard key={game.id} game={game} />
+          <SearchCard key={game.id} game={game} fetchGames={fetchGames} />
         ))}
       </Stack>
     </Stack>

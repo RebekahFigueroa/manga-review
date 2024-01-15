@@ -21,7 +21,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const SearchCard = ({ game }) => {
+const SearchCard = ({ game, fetchGames }) => {
   const { isAuthed: userId } = useAuthContext();
   const [openView, setOpenView] = useState(false);
   const handleClickOpenView = () => {
@@ -87,6 +87,7 @@ const SearchCard = ({ game }) => {
       }),
     });
     const review = await response.json();
+    fetchGames();
     setReviews((reviews) => [review, ...reviews]);
     setFormData({
       reviewText: "",

@@ -1,19 +1,11 @@
 class ReviewsController < ApplicationController
   def index
-    # TODO: remove and uncomment below
-    reviews = Review
-      .joins(:game)
-      .select(:id, :review_text, :rating, "games.id AS game_id", "games.name AS name", "games.image_url AS image_url", "games.genre AS genres")
-      .where(user_id: params[:userId])
-    # reviews = Review.all
+    reviews = Review.where(user_id: current_user)
     render json: reviews, status: :ok
   end
 
   def byGame
-    reviews = Review
-      .joins(:user)
-      .select(:id, :rating, :review_text, "users.username AS username", "users.id AS user_id")
-      .where(game_id: params[:game_id])
+    reviews = Review.where(game_id: params[:game_id])
     render json: reviews, status: :ok
   end 
 
@@ -41,7 +33,10 @@ class ReviewsController < ApplicationController
   end 
 
   def deleteReview
-    Review.destroy(params[:id])
+    review = Review.find(params[:id])
+    if review && current_user.id == review.user_id
+      Review.destroy(params[:id])
+    end
     head :no_content
   end 
 

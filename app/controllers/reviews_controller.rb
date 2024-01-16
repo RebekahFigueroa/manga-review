@@ -50,7 +50,7 @@ class ReviewsController < ApplicationController
 
   def authorize 
     render json: { error: ["User must be logged in"] }, status: 401 unless session[:user_id]
-end
+  end
 
 
 end

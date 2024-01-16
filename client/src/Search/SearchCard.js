@@ -24,6 +24,13 @@ import { useAuthContext } from "../contexts/AuthContext";
 const SearchCard = ({ game, fetchGames }) => {
   const { isAuthed: userId } = useAuthContext();
   const [openView, setOpenView] = useState(false);
+  const [openWrite, setOpenWrite] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [formData, setFormData] = useState({
+    reviewText: "",
+    rating: 0,
+  });
+
   const handleClickOpenView = () => {
     setOpenView(true);
   };
@@ -31,7 +38,6 @@ const SearchCard = ({ game, fetchGames }) => {
     setOpenView(false);
   };
 
-  const [openWrite, setOpenWrite] = useState(false);
   const handleClickOpenWrite = () => {
     setOpenWrite(true);
   };
@@ -39,7 +45,6 @@ const SearchCard = ({ game, fetchGames }) => {
     setOpenWrite(false);
   };
 
-  const [reviews, setReviews] = useState([]);
   useEffect(() => {
     const fetchReviews = async () => {
       const response = await fetch(`/reviews/${game.id}`);
@@ -50,11 +55,6 @@ const SearchCard = ({ game, fetchGames }) => {
     fetchReviews();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [formData, setFormData] = useState({
-    reviewText: "",
-    rating: 0,
-  });
 
   const handleReviewTextChange = (event) => {
     const {

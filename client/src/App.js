@@ -30,6 +30,7 @@ const BodyContent = () => {
     if (!isAuthed) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthed]);
 
   return (
@@ -51,6 +52,17 @@ const BodyContent = () => {
 };
 
 const App = () => {
+  // for debugging when creating controller
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch("/practice2/t");
+  //     const json = await response.json();
+  //     console.log(json);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

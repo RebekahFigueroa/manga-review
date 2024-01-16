@@ -82,7 +82,7 @@ const SearchCard = ({ game, fetchGames }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formData,
-        userId: userId,
+        userId: userId, // TODO: REMOVE
         gameId: game.id,
       }),
     });

@@ -1,9 +1,11 @@
 class ReviewsController < ApplicationController
   def index
+    # TODO: remove and uncomment below
     reviews = Review
       .joins(:game)
       .select(:id, :review_text, :rating, "games.id AS game_id", "games.name AS name", "games.image_url AS image_url", "games.genre AS genres")
       .where(user_id: params[:userId])
+    # reviews = Review.all
     render json: reviews, status: :ok
   end
 
@@ -17,6 +19,7 @@ class ReviewsController < ApplicationController
 
   def create
     review = Review.create!(user_id: params[:userId], game_id: params[:gameId], review_text: params[:reviewText], rating: params[:rating])
+    # TODO: remove and use serializer
     reviewWithUsername = Review
       .joins(:user)
       .select(:rating, :review_text, :"users.username", "users.id AS user_id")

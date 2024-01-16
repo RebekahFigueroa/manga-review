@@ -1,6 +1,7 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base # TODO: Change to API instead of Base
   include ActionController::Cookies
-  skip_before_action :verify_authenticity_token
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+
 
   before_action :isAuthorized
 

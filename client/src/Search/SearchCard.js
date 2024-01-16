@@ -142,7 +142,7 @@ const SearchCard = ({ game, fetchGames }) => {
             <Box>
               <List>
                 {reviews.map((review) => (
-                  <ListItem>
+                  <ListItem key={review.id}>
                     <ListItemText
                       primary={review.username}
                       secondary={review.review_text}
@@ -208,8 +208,8 @@ const SearchCard = ({ game, fetchGames }) => {
         </Dialog>
       </CardContent>
       <CardActions sx={{ marginTop: "auto" }}>
-        {game.genre.map((chip) => (
-          <Chip color="primary" label={chip} />
+        {game.genre.map((chip, index) => (
+          <Chip key={index} color="primary" label={chip} />
         ))}
       </CardActions>
     </Card>

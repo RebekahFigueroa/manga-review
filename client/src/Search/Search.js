@@ -68,9 +68,9 @@ const Search = () => {
 
   const theme = useTheme();
   const [formData, setFormData] = useState({
-    title: "",
-    imageUrl: "",
-    genres: [],
+    name: "",
+    image_url: "",
+    genre: [],
   });
 
   const handleTitleChange = (event) => {
@@ -79,7 +79,7 @@ const Search = () => {
     } = event;
     setFormData({
       ...formData,
-      title: value,
+      name: value,
     });
   };
 
@@ -89,7 +89,7 @@ const Search = () => {
     } = event;
     setFormData({
       ...formData,
-      imageUrl: value,
+      image_url: value,
     });
   };
 
@@ -100,7 +100,7 @@ const Search = () => {
     setFormData({
       ...formData,
       // On autofill we get a stringified value.
-      genres: typeof value === "string" ? value.split(",") : value,
+      genre: typeof value === "string" ? value.split(",") : value,
     });
   };
 
@@ -116,9 +116,9 @@ const Search = () => {
 
     setGames((games) => [...games, game]);
     setFormData({
-      title: "",
-      imageUrl: "",
-      genres: [],
+      name: "",
+      image_url: "",
+      genre: [],
     });
     handleCloseCreateGame();
   };
@@ -172,7 +172,7 @@ const Search = () => {
             sx={{ width: "100%", marginBottom: "2rem", marginTop: "1rem" }}
             id="outlined-multiline-flexible"
             label="Game Title"
-            value={formData.title}
+            value={formData.name}
             onChange={handleTitleChange}
             placeholder="Dota 2"
           />
@@ -180,7 +180,7 @@ const Search = () => {
             sx={{ width: "100%", marginBottom: "2rem", marginTop: "1rem" }}
             id="outlined-multiline-flexible"
             label="Add Image URL"
-            value={formData.imageUrl}
+            value={formData.image_url}
             onChange={handleImageUrlChange}
             placeholder="google.com"
           />
@@ -194,7 +194,7 @@ const Search = () => {
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
               multiple
-              value={formData.genres}
+              value={formData.genre}
               onChange={handleGenreChange}
               input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
               renderValue={(selected) => (
@@ -210,7 +210,7 @@ const Search = () => {
                 <MenuItem
                   key={name}
                   value={name}
-                  style={getStyles(name, formData.genres, theme)}
+                  style={getStyles(name, formData.genre, theme)}
                 >
                   {name}
                 </MenuItem>

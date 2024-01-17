@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+  before_action :authorize 
+  
   def index
     reviews = Review.where(user_id: current_user)
     render json: reviews, status: :ok
@@ -10,19 +12,14 @@ class ReviewsController < ApplicationController
   end 
 
   def create
-    review = Review.create!(user_id: params[:userId], game_id: params[:gameId], review_text: params[:reviewText], rating: params[:rating])
-    # TODO: remove and use serializer
-    reviewWithUsername = Review
-      .joins(:user)
-      .select(:rating, :review_text, :"users.username", "users.id AS user_id")
-      .find(review.id)
-    render json: reviewWithUsername, status: :created 
+    review = current_user.reviews.create!(review_params)
+    render json: review, status: :created 
   end 
 
-  def editReview
-    review = Review.find_by(id: params[:id])
+  def update
+    review = current_user.reviews.find(params[:id])
     if review
-      if review.update(review_params)
+      if review.update!(review_params)
         render json: review
       else
         render json: { error: "Failed to update the review", errors: review.errors.full_messages }, status: :unprocessable_entity
@@ -32,11 +29,9 @@ class ReviewsController < ApplicationController
     end
   end 
 
-  def deleteReview
-    review = Review.find(params[:id])
-    if review && current_user.id == review.user_id
-      Review.destroy(params[:id])
-    end
+  def destroy
+    review =  current_user.reviews.find(params[:id])
+    review.destroy
     head :no_content
   end 
 

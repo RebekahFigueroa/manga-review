@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :create]
-  resources :games, only: [:index, :show, :create] 
-  resources :reviews, only: [:index, :create]
+  resources :games, only: [:index, :create] 
+  resources :reviews, only: [:index, :create, :update, :destroy]
 
   get "/auth", to: "auth#auth"
 
@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   delete "/logout", to: "session#destroy" 
 
   get "/reviews/:game_id", to: "reviews#byGame"
-  patch "/reviews/:id", to: "reviews#editReview"
-  delete "/reviews/:id", to: "reviews#deleteReview"
 
   get "/stats", to: "stats#stats"
 

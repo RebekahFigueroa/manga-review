@@ -27,7 +27,7 @@ const SearchCard = ({ game, fetchGames }) => {
   const [openWrite, setOpenWrite] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
-    reviewText: "",
+    review_text: "",
     rating: 0,
   });
 
@@ -62,7 +62,7 @@ const SearchCard = ({ game, fetchGames }) => {
     } = event;
     setFormData({
       ...formData,
-      reviewText: value,
+      review_text: value,
     });
   };
 
@@ -82,8 +82,7 @@ const SearchCard = ({ game, fetchGames }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...formData,
-        userId: userId, // TODO: REMOVE
-        gameId: game.id,
+        game_id: game.id,
       }),
     });
     const review = await response.json();
@@ -123,7 +122,7 @@ const SearchCard = ({ game, fetchGames }) => {
         <Rating
           name="customized-10"
           max={10}
-          value={Math.round(game.rating)}
+          value={Math.round(game.avg_rating)}
           readOnly
         />
 
@@ -165,7 +164,7 @@ const SearchCard = ({ game, fetchGames }) => {
         </Dialog>
 
         {/* Write Review Form */}
-        {!reviews.some((review) => review.user_id === userId) && (
+        {!reviews.some((review) => review.user.id === userId) && (
           <Button
             variant="outlined"
             size="small"

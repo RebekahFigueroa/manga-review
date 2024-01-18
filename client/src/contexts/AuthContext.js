@@ -28,7 +28,11 @@ export const AuthProvider = ({ children }) => {
     });
 
     const user = await response.json();
-    setIsAuthed(user?.id);
+    if (user.id) {
+      setIsAuthed(user?.id);
+    } else {
+      alert(user.error.login);
+    }
   };
 
   const create_user = async (username, password) => {
@@ -39,7 +43,11 @@ export const AuthProvider = ({ children }) => {
     });
 
     const user = await response.json();
-    setIsAuthed(user?.id);
+    if (user.id) {
+      setIsAuthed(user?.id);
+    } else {
+      alert(user.errors.join(", "));
+    }
   };
 
   const logout = async () => {

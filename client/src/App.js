@@ -55,7 +55,7 @@ const App = () => {
   // for debugging when creating controller
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     const response = await fetch("/practice2/t");
+  //     const response = await fetch("/practice6/20");
   //     const json = await response.json();
   //     console.log(json);
   //   };

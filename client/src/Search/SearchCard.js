@@ -86,13 +86,17 @@ const SearchCard = ({ game, fetchGames }) => {
       }),
     });
     const review = await response.json();
-    fetchGames();
-    setReviews((reviews) => [review, ...reviews]);
-    setFormData({
-      reviewText: "",
-      rating: 0,
-    });
-    handleCloseWrite();
+    if (!review.errors) {
+      fetchGames();
+      setReviews((reviews) => [review, ...reviews]);
+      setFormData({
+        reviewText: "",
+        rating: 0,
+      });
+      handleCloseWrite();
+    } else {
+      alert(review.errors.join(", "));
+    }
   };
 
   return (

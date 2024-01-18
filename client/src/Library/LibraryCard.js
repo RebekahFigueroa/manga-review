@@ -60,23 +60,27 @@ const LibraryCard = ({ review, setReviews }) => {
     });
     const updatedReview = await response.json();
 
-    setReviews((reviews) =>
-      reviews.reduce((array, review) => {
-        if (review.id !== updatedReview.id) {
-          array.push(review);
-        } else {
-          array.push({
-            ...review,
-            review_text: updatedReview.review_text,
-            rating: updatedReview.rating,
-          });
-        }
+    if (!updatedReview.errors) {
+      setReviews((reviews) =>
+        reviews.reduce((array, review) => {
+          if (review.id !== updatedReview.id) {
+            array.push(review);
+          } else {
+            array.push({
+              ...review,
+              review_text: updatedReview.review_text,
+              rating: updatedReview.rating,
+            });
+          }
 
-        return array;
-      }, [])
-    );
+          return array;
+        }, [])
+      );
 
-    handleCloseWrite();
+      handleCloseWrite();
+    } else {
+      alert(updatedReview.errors.join(", "));
+    }
   };
 
   const handleDelete = () => {
